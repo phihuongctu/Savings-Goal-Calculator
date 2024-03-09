@@ -1,4 +1,8 @@
 # Savings-Goal-Calculator
+components:
+- header
+- card
+- modal
 
 # React + Vite
 
