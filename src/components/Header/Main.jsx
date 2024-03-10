@@ -1,12 +1,24 @@
-import * as React from "react";
+import { Button, styled } from "@mui/material";
+
 import Box from "@mui/material/Box";
 import logo from "~/assets/logo.png";
 
+const StyledHeader = styled(Box)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "left",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: "1rem",
+    [theme.breakpoints.up("md")]: {
+        padding: "1.5rem 2.5rem"
+    }
+}));
+
 function Header() {
     return (
-        <Box component="header" sx={{ display:'flex', alignItems:'center', justifyContent: 'left', py: 3, px:7, backgroundColor:"#fff" }}>
-            <img src={logo} width="100" height="32" />
-        </Box>
+        <StyledHeader component={"header"}>
+            <img src={logo} width="100" height="32" alt="Logo" />
+        </StyledHeader>
     );
 }
 
