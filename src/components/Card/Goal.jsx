@@ -1,21 +1,19 @@
 import { theme } from "~/configs/ThemeConfig";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useFormatterCurrency from "~/utils/currencyFormat";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Stack, styled } from "@mui/material";
-
+import { IconButton, Stack, TextField, styled } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import OutlinedInput from "@mui/material/OutlinedInput";
 
 import IconHouse from "~/assets/icons/icon-house.svg";
 import IconDollar from "~/assets/icons/icon-dollar-sign.svg";
+import IconArrowLeft from "~/assets/icons/icon-chevron-left.svg";
+import IconArrowRight from "~/assets/icons/icon-chevron-right.svg";
 
 const StyledCard = styled(Card)(({ theme }) => ({
     display: "flex",
@@ -101,6 +99,33 @@ const IconAmount = styled(Box)({
     width: 24,
 });
 
+const ReachDateBox = styled(Stack)({
+    border: "1px solid rgba(233, 238, 242, 1)",
+    borderRadius: "0.5rem",
+});
+
+const ReachDateInput = styled(TextField)(({ theme }) => ({
+    width: "100%",
+    "& input": {
+        fontSize: "0.875rem",
+        fontWeight: "600",
+        lineHeight: "1.25rem",
+        textAlign: "center",
+        color: "rgba(30, 42, 50, 1)",
+        borderRadius: 4,
+        padding: "0",
+        border: "none",
+        outline: "none",
+    },
+    ":hover, :focus": {
+        borderColor: theme.palette.secondary.main,
+    },
+    [theme.breakpoints.up("md")]: {
+        fontSize: "1rem",
+        lineHeight: "1.5rem",
+    },
+}));
+
 const MonthAmountBox = styled(Box)({
     border: "1px solid rgba(233, 238, 242, 1)",
     borderRadius: "0.5rem",
@@ -151,7 +176,6 @@ const InfoDetail = styled(Box)(({ theme }) => ({
 }));
 
 const ButtonConfirm = styled(Button)(({ theme }) => ({
-    // fontFamily: "Work Sans",
     fontSize: "1rem",
     fontWeight: "600",
     lineHeight: "1.25rem",
@@ -162,23 +186,69 @@ const ButtonConfirm = styled(Button)(({ theme }) => ({
     padding: "1.125rem",
     width: "100%",
     maxWidth: "20rem",
-    alignSelf:'center',
-    borderRadius:"99px",
-    marginTop:'0.5rem',
+    alignSelf: "center",
+    borderRadius: "99px",
+    marginTop: "0.5rem",
     ":hover": {
         backgroundColor: theme.palette.secondary.main,
     },
 }));
 
 function CardGoal() {
-    const [amount, setAmount] = useState("");
     const formatCurrency = useFormatterCurrency();
+    const [amount, setAmount] = useState("");
+    const [reachDate, setReachDate] = useState(new Date());
+    const [totalMonth, setTotalMonth] = useState(1);
+
+    const parseAmount = parseFloat(amount.replace(/,/g, ""));
+    const currentDay = new Date();
+    const currency = "$";
+    const monthlyAmount = parseAmount / totalMonth;
+    // const result = formatCurrency(monthlyAmount);
+
+    const dateInfo = new Date(reachDate);
+    const month = dateInfo.toLocaleDateString("en-US", { month: "long" });
+    const year = dateInfo.toLocaleDateString("en-US", { year: "numeric" });
+
+    console.log(parseAmount);
+    console.log(totalMonth);
+    console.log(parseAmount / totalMonth);
+    // console.log(result);
+
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+            if (event.key === "ArrowLeft") {
+                handlePrevMonth();
+            } else if (event.key === "ArrowRight") {
+                handleNextMonth();
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyPress);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyPress);
+        };
+    }, [reachDate]);
 
     const handleChange = (event) => {
-        const input = event.target.value;
-        const formattedValue = formatCurrency(input.replace(/[^0-9.]/g, ""));
+        const inputAmount = event.target.value;
+        const formattedValue = formatCurrency(inputAmount.replace(/[^0-9.]/g, ""));
         setAmount(formattedValue);
     };
+
+    const handlePrevMonth = () => {
+        const prevMonth = new Date(reachDate.getFullYear(), reachDate.getMonth() - 1);
+        setReachDate(prevMonth);
+        setTotalMonth(prevMonth.getMonth() - currentDay.getMonth() + 12 * (prevMonth.getFullYear() - currentDay.getFullYear()));
+    };
+
+    const handleNextMonth = () => {
+        const nextMonth = new Date(reachDate.getFullYear(), reachDate.getMonth() + 1);
+        setReachDate(nextMonth);
+        setTotalMonth(nextMonth.getMonth() - currentDay.getMonth() + 12 * (nextMonth.getFullYear() - currentDay.getFullYear()));
+    };
+
     return (
         <StyledCard>
             <Stack direction={"row"} gap={2} alignItems={"center"}>
@@ -203,48 +273,48 @@ function CardGoal() {
                             alt="Icon amount"
                             src={IconDollar}
                         />
-                        <AmountInput component={"input"} id="amount" className="amount" type="text" value={amount} onChange={handleChange} />
+                        <AmountInput component={"input"} id="amount" className="amount" type="text" placeholder="0" value={amount} onChange={handleChange} />
                     </Stack>
                 </AmountBox>
-                <FormControl variant="outlined">
+                <Box width={"100%"}>
                     <Label component={"label"} htmlFor="ReachGoal">
                         Reach goal by
                     </Label>
-                    <OutlinedInput
-                        id="ReachGoal"
-                        startAdornment={
-                            <InputAdornment position="start">
-                                <Box
-                                    component="img"
-                                    sx={{
-                                        height: 24,
-                                        width: 24,
-                                    }}
-                                    alt="Icon amount"
-                                    src={IconDollar}
-                                />
-                            </InputAdornment>
-                        }
-                    />
-                </FormControl>
+                    <ReachDateBox direction={"row"}>
+                        <IconButton onClick={handlePrevMonth} aria-label="prev month" size="large">
+                            <img src={IconArrowLeft} width={24} height={24} />
+                        </IconButton>
+                        <Stack direction={"column"} alignItems={"center"}>
+                            <ReachDateInput type="text" value={reachDate.toLocaleDateString("en-US", { month: "long" })} readOnly style={{ margin: "0 10px" }} />
+                            <Box>{reachDate.toLocaleDateString("en-US", { year: "numeric" })}</Box>
+                        </Stack>
+                        <IconButton onClick={handlePrevMonth} aria-label="prev month" size="large">
+                            <img src={IconArrowRight} width={24} height={24} />
+                        </IconButton>
+                    </ReachDateBox>
+                </Box>
             </Stack>
             <MonthAmountBox>
                 <TitleBox>
                     <MonthTitle>Monthly amount</MonthTitle>
-                    <MonthPrice>$520.83</MonthPrice>
+                    <MonthPrice>
+                        {currency}
+                        {monthlyAmount}
+                    </MonthPrice>
                 </TitleBox>
                 <InfoDetail>
                     You’re planning&nbsp;
                     <Typography fontSize={12} component={"span"} fontWeight={600}>
-                        48 monthly deposits&nbsp;
+                        {totalMonth} monthly deposits&nbsp;
                     </Typography>
                     to reach your&nbsp;
                     <Typography fontSize={12} component={"span"} fontWeight={600}>
-                        $25,000&nbsp;
+                        {currency}
+                        {monthlyAmount}&nbsp;
                     </Typography>
                     goal by&nbsp;
                     <Typography fontSize={12} component={"span"} fontWeight={600}>
-                        October 2020.
+                        {month} {year}.
                     </Typography>
                 </InfoDetail>
             </MonthAmountBox>
