@@ -11,8 +11,8 @@ import "~/assets/styles/main.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
-            <Container maxWidth={"xl"} sx={{ padding: 0 }}>
-                <Header />
+            <Header />
+            <Container component={"main"} maxWidth={"xl"} sx={{ padding: 0 }}>
                 <SavingGoal />
             </Container>
         </ThemeProvider>

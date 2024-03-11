@@ -6,8 +6,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { IconButton, Stack, TextField, styled } from "@mui/material";
-import FormControl from "@mui/material/FormControl";
+import { Grid, IconButton, Stack, TextField, styled } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 
 import IconHouse from "~/assets/icons/icon-house.svg";
@@ -18,15 +17,16 @@ import IconArrowRight from "~/assets/icons/icon-chevron-right.svg";
 const StyledCard = styled(Card)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
-    gap: "1.5rem",
     width: "100%",
-    maxWidth: "560px",
-    boxShadow: "0px 16px 32px 0px rgba(30, 42, 50, 0.08)",
+    gap: "1rem",
+    maxWidth: "35rem",
+    boxShadow: "0 1rem 2rem 0px rgba(30, 42, 50, 0.08)",
     padding: "1.5rem",
     borderRadius: "0.5rem",
 
     [theme.breakpoints.up("md")]: {
         padding: " 1.25rem 2rem 2.5rem",
+        gap: "1.5rem",
     },
 }));
 
@@ -34,11 +34,11 @@ const GoalTitle = styled(Typography)(({ theme }) => ({
     fontFamily: "Rubik",
     fontSize: "1.25rem",
     fontWeight: "500",
-    lineHeight: "24px",
+    lineHeight: "1.5rem",
     color: "rgba(30, 42, 50, 1)",
     [theme.breakpoints.up("md")]: {
         fontSize: "1.5rem",
-        lineHeight: "28.8px",
+        lineHeight: "1.75rem",
     },
 }));
 
@@ -50,13 +50,6 @@ const GoalSubTitle = styled(Typography)(({ theme }) => ({
     [theme.breakpoints.up("md")]: {
         fontSize: "1rem",
         lineHeight: "1.5rem",
-    },
-}));
-
-const AmountBox = styled(Box)(({ theme }) => ({
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-        width: "60%",
     },
 }));
 
@@ -78,7 +71,7 @@ const AmountInput = styled(Box)(({ theme }) => ({
     color: "rgba(77, 100, 117, 1)",
     borderRadius: 4,
     height: "3.5rem",
-    padding: "1rem 0.75rem 1rem  44px",
+    padding: "1rem 0.75rem 1rem  2.75rem",
     border: "1px solid rgba(233, 238, 242, 1)",
     outline: "none",
     width: "100%",
@@ -87,7 +80,7 @@ const AmountInput = styled(Box)(({ theme }) => ({
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "1.5rem",
-        lineHeight: "28.8px",
+        lineHeight: "1.75rem",
     },
 }));
 
@@ -101,22 +94,26 @@ const IconAmount = styled(Box)({
 
 const ReachDateBox = styled(Stack)({
     border: "1px solid rgba(233, 238, 242, 1)",
-    borderRadius: "0.5rem",
+    borderRadius: "0.25rem",
+    padding: "0",
+    height: "3.5rem",
+    alignItems: "center",
+    justifyContent: "space-between",
 });
 
-const ReachDateInput = styled(TextField)(({ theme }) => ({
+const ReachDateInput = styled("input")(({ theme }) => ({
+    fontFamily: "Work Sans",
     width: "100%",
-    "& input": {
-        fontSize: "0.875rem",
-        fontWeight: "600",
-        lineHeight: "1.25rem",
-        textAlign: "center",
-        color: "rgba(30, 42, 50, 1)",
-        borderRadius: 4,
-        padding: "0",
-        border: "none",
-        outline: "none",
-    },
+    fontSize: "0.875rem",
+    fontWeight: "600",
+    lineHeight: "1.25rem",
+    textAlign: "center",
+    color: "rgba(30, 42, 50, 1)",
+    borderRadius: 4,
+    padding: "0",
+    border: "none",
+    outline: "none",
+
     ":hover, :focus": {
         borderColor: theme.palette.secondary.main,
     },
@@ -126,10 +123,21 @@ const ReachDateInput = styled(TextField)(({ theme }) => ({
     },
 }));
 
-const MonthAmountBox = styled(Box)({
+const ButtonArrow = styled(IconButton)({
+    height: "3.5rem",
+    width: "3rem",
+    padding: 0,
+    borderRadius: "initial",
+});
+
+const MonthAmountBox = styled(Box)(({ theme }) => ({
     border: "1px solid rgba(233, 238, 242, 1)",
     borderRadius: "0.5rem",
-});
+    marginTop: "0.5rem",
+    [theme.breakpoints.up("md")]: {
+        marginTop: "0",
+    },
+}));
 
 const MonthTitle = styled(Typography)({
     fontSize: "1.125rem",
@@ -169,10 +177,13 @@ const InfoDetail = styled(Box)(({ theme }) => ({
     fontSize: "0.75rem",
     fontWeight: "400",
     lineHeight: "1rem",
-    textAlign: "left",
+    textAlign: "center",
     color: "rgba(28, 30, 31, 1)",
     padding: "1.5rem 2rem",
     backgroundColor: "rgba(244, 248, 250, 1)",
+    [theme.breakpoints.up("md")]: {
+        textAlign: "left",
+    },
 }));
 
 const ButtonConfirm = styled(Button)(({ theme }) => ({
@@ -198,38 +209,57 @@ function CardGoal() {
     const formatCurrency = useFormatterCurrency();
     const [amount, setAmount] = useState("");
     const [reachDate, setReachDate] = useState(new Date());
-    const [totalMonth, setTotalMonth] = useState(1);
+    const [totalMonth, setTotalMonth] = useState(0);
+    const [isDateFocused, setIsDateFocused] = useState(false);
 
-    const parseAmount = parseFloat(amount.replace(/,/g, ""));
     const currentDay = new Date();
     const currency = "$";
-    const monthlyAmount = parseAmount / totalMonth;
-    // const result = formatCurrency(monthlyAmount);
-
     const dateInfo = new Date(reachDate);
     const month = dateInfo.toLocaleDateString("en-US", { month: "long" });
     const year = dateInfo.toLocaleDateString("en-US", { year: "numeric" });
 
-    console.log(parseAmount);
-    console.log(totalMonth);
-    console.log(parseAmount / totalMonth);
-    // console.log(result);
+    // kiểm tra xem amount có rỗng hay không
+    let parseAmount = 0;
+    if (amount.trim() !== "") {
+        parseAmount = parseFloat(amount.replace(/,/g, ""));
+    }
+
+    const amountResult = amount !== "" ? amount : 0;
+    // kiểm tra tổng số tháng đã chọn phải khác 0
+    const monthlyAmount = totalMonth !== 0 ? parseAmount / totalMonth : 0;
+    const formattedMonthlyAmount = monthlyAmount.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
 
     useEffect(() => {
         const handleKeyPress = (event) => {
-            if (event.key === "ArrowLeft") {
-                handlePrevMonth();
-            } else if (event.key === "ArrowRight") {
-                handleNextMonth();
+            if (isDateFocused) {
+                if (event.key === "ArrowLeft") {
+                    handlePrevMonth();
+                } else if (event.key === "ArrowRight") {
+                    handleNextMonth();
+                }
             }
         };
-
         document.addEventListener("keydown", handleKeyPress);
-
         return () => {
             document.removeEventListener("keydown", handleKeyPress);
         };
-    }, [reachDate]);
+    }, [reachDate, setIsDateFocused]);
+
+    const handleInputMonthFocus = () => {
+        setIsDateFocused(true);
+    };
+
+    const handleInputMonthBlur = () => {
+        setIsDateFocused(false);
+    };
+
+    //Kiểm tra xem giá trị hiện tại có phải là tháng trước không
+    const isPastMonth = (date) => {
+        return date.getFullYear() < currentDay.getFullYear() || (date.getFullYear() === currentDay.getFullYear() && date.getMonth() < currentDay.getMonth());
+    };
 
     const handleChange = (event) => {
         const inputAmount = event.target.value;
@@ -239,14 +269,18 @@ function CardGoal() {
 
     const handlePrevMonth = () => {
         const prevMonth = new Date(reachDate.getFullYear(), reachDate.getMonth() - 1);
-        setReachDate(prevMonth);
-        setTotalMonth(prevMonth.getMonth() - currentDay.getMonth() + 12 * (prevMonth.getFullYear() - currentDay.getFullYear()));
+        if (!isPastMonth(prevMonth)) {
+            setReachDate(prevMonth);
+            setTotalMonth(prevMonth.getMonth() - currentDay.getMonth() + 12 * (prevMonth.getFullYear() - currentDay.getFullYear()));
+        }
     };
 
     const handleNextMonth = () => {
         const nextMonth = new Date(reachDate.getFullYear(), reachDate.getMonth() + 1);
-        setReachDate(nextMonth);
-        setTotalMonth(nextMonth.getMonth() - currentDay.getMonth() + 12 * (nextMonth.getFullYear() - currentDay.getFullYear()));
+        if (!isPastMonth(nextMonth)) {
+            setReachDate(nextMonth);
+            setTotalMonth(nextMonth.getMonth() - currentDay.getMonth() + 12 * (nextMonth.getFullYear() - currentDay.getFullYear()));
+        }
     };
 
     return (
@@ -258,8 +292,8 @@ function CardGoal() {
                     <GoalSubTitle>Saving goal</GoalSubTitle>
                 </Stack>
             </Stack>
-            <Stack direction={{ xs: "column", md: "row" }} gap={2} alignItems={"center"}>
-                <AmountBox variant="outlined">
+            <Grid container columnSpacing={{ xs: 0, md: 2 }} rowSpacing={{ xs: 2, md: 0 }} alignItems={"center"}>
+                <Grid item xs={12} md={7}>
                     <Label component={"label"} htmlFor="amount">
                         Total amount
                     </Label>
@@ -275,31 +309,31 @@ function CardGoal() {
                         />
                         <AmountInput component={"input"} id="amount" className="amount" type="text" placeholder="0" value={amount} onChange={handleChange} />
                     </Stack>
-                </AmountBox>
-                <Box width={"100%"}>
+                </Grid>
+                <Grid item xs={12} md={5} onFocus={handleInputMonthFocus} onBlur={handleInputMonthBlur}>
                     <Label component={"label"} htmlFor="ReachGoal">
                         Reach goal by
                     </Label>
                     <ReachDateBox direction={"row"}>
-                        <IconButton onClick={handlePrevMonth} aria-label="prev month" size="large">
-                            <img src={IconArrowLeft} width={24} height={24} />
-                        </IconButton>
+                        <ButtonArrow onClick={handlePrevMonth} aria-label="prev month">
+                            <img src={IconArrowLeft} width={24} height={24} alt="prev month" />
+                        </ButtonArrow>
                         <Stack direction={"column"} alignItems={"center"}>
-                            <ReachDateInput type="text" value={reachDate.toLocaleDateString("en-US", { month: "long" })} readOnly style={{ margin: "0 10px" }} />
-                            <Box>{reachDate.toLocaleDateString("en-US", { year: "numeric" })}</Box>
+                            <ReachDateInput value={reachDate.toLocaleDateString("en-US", { month: "long" })} readOnly />
+                            <ReachDateInput sx={{ fontWeight: 400 }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })} readOnly />
                         </Stack>
-                        <IconButton onClick={handlePrevMonth} aria-label="prev month" size="large">
-                            <img src={IconArrowRight} width={24} height={24} />
-                        </IconButton>
+                        <ButtonArrow onClick={handleNextMonth} aria-label="next month">
+                            <img src={IconArrowRight} width={24} height={24} alt="next month" />
+                        </ButtonArrow>
                     </ReachDateBox>
-                </Box>
-            </Stack>
+                </Grid>
+            </Grid>
             <MonthAmountBox>
                 <TitleBox>
                     <MonthTitle>Monthly amount</MonthTitle>
                     <MonthPrice>
                         {currency}
-                        {monthlyAmount}
+                        {formattedMonthlyAmount}
                     </MonthPrice>
                 </TitleBox>
                 <InfoDetail>
@@ -310,7 +344,7 @@ function CardGoal() {
                     to reach your&nbsp;
                     <Typography fontSize={12} component={"span"} fontWeight={600}>
                         {currency}
-                        {monthlyAmount}&nbsp;
+                        {amountResult}&nbsp;
                     </Typography>
                     goal by&nbsp;
                     <Typography fontSize={12} component={"span"} fontWeight={600}>
@@ -318,7 +352,6 @@ function CardGoal() {
                     </Typography>
                 </InfoDetail>
             </MonthAmountBox>
-
             <ButtonConfirm>Confirm</ButtonConfirm>
         </StyledCard>
     );
