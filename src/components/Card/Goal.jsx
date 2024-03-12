@@ -6,9 +6,10 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Grid, IconButton, Stack, TextField, styled } from "@mui/material";
+import { Grid, IconButton, Stack, styled } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 
+import ModalConfirm from "../Modals/Confirm";
 import IconHouse from "~/assets/icons/icon-house.svg";
 import IconDollar from "~/assets/icons/icon-dollar-sign.svg";
 import IconArrowLeft from "~/assets/icons/icon-chevron-left.svg";
@@ -211,6 +212,9 @@ function CardGoal() {
     const [reachDate, setReachDate] = useState(new Date());
     const [totalMonth, setTotalMonth] = useState(0);
     const [isDateFocused, setIsDateFocused] = useState(false);
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const currentDay = new Date();
     const currency = "$";
@@ -284,76 +288,79 @@ function CardGoal() {
     };
 
     return (
-        <StyledCard>
-            <Stack direction={"row"} gap={2} alignItems={"center"}>
-                <Box component="img" alt="Icon House" src={IconHouse} />
-                <Stack gap={0.5}>
-                    <GoalTitle>Buy a house</GoalTitle>
-                    <GoalSubTitle>Saving goal</GoalSubTitle>
-                </Stack>
-            </Stack>
-            <Grid container columnSpacing={{ xs: 0, md: 2 }} rowSpacing={{ xs: 2, md: 0 }} alignItems={"center"}>
-                <Grid item xs={12} md={7}>
-                    <Label component={"label"} htmlFor="amount">
-                        Total amount
-                    </Label>
-                    <Stack direction={"row"} gap={1} alignItems={"center"} position={"relative"}>
-                        <IconAmount
-                            component="img"
-                            sx={{
-                                height: 24,
-                                width: 24,
-                            }}
-                            alt="Icon amount"
-                            src={IconDollar}
-                        />
-                        <AmountInput component={"input"} id="amount" className="amount" type="text" placeholder="0" value={amount} onChange={handleChange} />
+        <>
+            <StyledCard>
+                <Stack direction={"row"} gap={2} alignItems={"center"}>
+                    <Box component="img" alt="Icon House" src={IconHouse} />
+                    <Stack gap={0.5}>
+                        <GoalTitle>Buy a house</GoalTitle>
+                        <GoalSubTitle>Saving goal</GoalSubTitle>
                     </Stack>
-                </Grid>
-                <Grid item xs={12} md={5} onFocus={handleInputMonthFocus} onBlur={handleInputMonthBlur}>
-                    <Label component={"label"} htmlFor="ReachGoal">
-                        Reach goal by
-                    </Label>
-                    <ReachDateBox direction={"row"}>
-                        <ButtonArrow onClick={handlePrevMonth} aria-label="prev month">
-                            <img src={IconArrowLeft} width={24} height={24} alt="prev month" />
-                        </ButtonArrow>
-                        <Stack direction={"column"} alignItems={"center"}>
-                            <ReachDateInput value={reachDate.toLocaleDateString("en-US", { month: "long" })} readOnly />
-                            <ReachDateInput sx={{ fontWeight: 400 }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })} readOnly />
+                </Stack>
+                <Grid container columnSpacing={{ xs: 0, md: 2 }} rowSpacing={{ xs: 2, md: 0 }} alignItems={"center"}>
+                    <Grid item xs={12} md={7}>
+                        <Label component={"label"} htmlFor="amount">
+                            Total amount
+                        </Label>
+                        <Stack direction={"row"} gap={1} alignItems={"center"} position={"relative"}>
+                            <IconAmount
+                                component="img"
+                                sx={{
+                                    height: 24,
+                                    width: 24,
+                                }}
+                                alt="Icon amount"
+                                src={IconDollar}
+                            />
+                            <AmountInput component={"input"} id="amount" className="amount" type="text" placeholder="0" value={amount} onChange={handleChange} />
                         </Stack>
-                        <ButtonArrow onClick={handleNextMonth} aria-label="next month">
-                            <img src={IconArrowRight} width={24} height={24} alt="next month" />
-                        </ButtonArrow>
-                    </ReachDateBox>
+                    </Grid>
+                    <Grid item xs={12} md={5} onFocus={handleInputMonthFocus} onBlur={handleInputMonthBlur}>
+                        <Label component={"label"} htmlFor="ReachGoal">
+                            Reach goal by
+                        </Label>
+                        <ReachDateBox direction={"row"}>
+                            <ButtonArrow onClick={handlePrevMonth} aria-label="prev month">
+                                <img src={IconArrowLeft} width={24} height={24} alt="prev month" />
+                            </ButtonArrow>
+                            <Stack direction={"column"} alignItems={"center"}>
+                                <ReachDateInput value={reachDate.toLocaleDateString("en-US", { month: "long" })} readOnly />
+                                <ReachDateInput sx={{ fontWeight: 400 }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })} readOnly />
+                            </Stack>
+                            <ButtonArrow onClick={handleNextMonth} aria-label="next month">
+                                <img src={IconArrowRight} width={24} height={24} alt="next month" />
+                            </ButtonArrow>
+                        </ReachDateBox>
+                    </Grid>
                 </Grid>
-            </Grid>
-            <MonthAmountBox>
-                <TitleBox>
-                    <MonthTitle>Monthly amount</MonthTitle>
-                    <MonthPrice>
-                        {currency}
-                        {formattedMonthlyAmount}
-                    </MonthPrice>
-                </TitleBox>
-                <InfoDetail>
-                    You’re planning&nbsp;
-                    <Typography fontSize={12} component={"span"} fontWeight={600}>
-                        {totalMonth} monthly deposits&nbsp;
-                    </Typography>
-                    to reach your&nbsp;
-                    <Typography fontSize={12} component={"span"} fontWeight={600}>
-                        {currency}
-                        {amountResult}&nbsp;
-                    </Typography>
-                    goal by&nbsp;
-                    <Typography fontSize={12} component={"span"} fontWeight={600}>
-                        {month} {year}.
-                    </Typography>
-                </InfoDetail>
-            </MonthAmountBox>
-            <ButtonConfirm>Confirm</ButtonConfirm>
-        </StyledCard>
+                <MonthAmountBox>
+                    <TitleBox>
+                        <MonthTitle>Monthly amount</MonthTitle>
+                        <MonthPrice>
+                            {currency}
+                            {formattedMonthlyAmount}
+                        </MonthPrice>
+                    </TitleBox>
+                    <InfoDetail>
+                        You’re planning&nbsp;
+                        <Typography fontSize={12} component={"span"} fontWeight={600}>
+                            {totalMonth} monthly deposits&nbsp;
+                        </Typography>
+                        to reach your&nbsp;
+                        <Typography fontSize={12} component={"span"} fontWeight={600}>
+                            {currency}
+                            {amountResult}&nbsp;
+                        </Typography>
+                        goal by&nbsp;
+                        <Typography fontSize={12} component={"span"} fontWeight={600}>
+                            {month} {year}.
+                        </Typography>
+                    </InfoDetail>
+                </MonthAmountBox>
+                <ButtonConfirm onClick={handleOpen}>Confirm</ButtonConfirm>
+            </StyledCard>
+            <ModalConfirm amount={amount} reachDate={totalMonth} monthly={formattedMonthlyAmount} currency={currency} open={open} close={handleClose} />
+        </>
     );
 }
 
