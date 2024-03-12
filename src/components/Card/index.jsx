@@ -40,7 +40,7 @@ const AmountInput = styled(Box)(({ theme }) => ({
     borderRadius: 4,
     height: "3.5rem",
     padding: "1rem 0.75rem 1rem  2.75rem",
-    border: "1px solid rgba(233, 238, 242, 1)",
+    border: `1px solid ${theme.palette.border.main}`,
     outline: "none",
     width: "100%",
     ":hover, :focus": {
@@ -61,7 +61,7 @@ const IconAmount = styled(Box)({
 });
 
 const ReachDateBox = styled(Stack)(({ theme }) => ({
-    border: "1px solid rgba(233, 238, 242, 1)",
+    border: `1px solid ${theme.palette.border.main}`,
     borderRadius: "0.25rem",
     padding: "0",
     height: "3.5rem",
@@ -149,6 +149,8 @@ function CardGoal() {
     // Kiểm tra nếu input amount rỗng thì set amountResult = 0
     const amountResult = amount !== "" ? amount : 0;
 
+
+
     // Chuyển đổi một chuỗi số có thể chứa dấu phẩy sang dạng số thực
     let parseAmount = 0;
     if (amount.trim() !== "") {
@@ -161,6 +163,9 @@ function CardGoal() {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     });
+
+    //kiểm tra monthlyAmount có bằng 0
+    const isMonthlyAmountZero = monthlyAmount !== 0 ? false : true
 
     // Xử lí khi input month được focus thì trigger arrow keyboard
     useEffect(() => {
@@ -256,7 +261,7 @@ function CardGoal() {
                             onFocus={handleInputMonthFocus}
                             onBlur={handleInputMonthBlur}
                             sx={{
-                                borderColor: isDateFocused ? theme.palette.primary.lightBlue : "rgba(233, 238, 242, 1)",
+                                borderColor: isDateFocused ? theme.palette.primary.lightBlue : theme.palette.border.main
                             }}>
                             <ButtonArrow onClick={handlePrevMonth} aria-label="prev month">
                                 <img src={IconArrowLeft} width={24} height={24} alt="prev month" />
@@ -272,7 +277,7 @@ function CardGoal() {
                     </Grid>
                 </Grid>
                 <CardResult amountResult={amountResult} totalMonth={totalMonth} monthlyAmount={formattedMonthlyAmount} month={month} year={year} currency={currency} />
-                <ButtonConfirm disabled={monthlyAmount !== 0 ? false : true} onClick={handleOpen}>
+                <ButtonConfirm disabled={isMonthlyAmountZero} onClick={handleOpen}>
                     Confirm
                 </ButtonConfirm>
             </StyledCard>

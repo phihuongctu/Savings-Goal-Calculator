@@ -12,6 +12,9 @@ let theme = createTheme({
         header: {
             main: "rgba(255, 255, 255, 1)",
         },
+        border:{
+            main:"rgba(233, 238, 242, 1)"
+        }
     },
     typography: {
         fontFamily: ["Work Sans", "sans-serif"].join(","),

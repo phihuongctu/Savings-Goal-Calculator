@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material";
 
 const MonthAmountBox = styled(Box)(({ theme }) => ({
-    border: "1px solid rgba(233, 238, 242, 1)",
+    border: `1px solid ${theme.palette.border.main}`,
     borderRadius: "0.5rem",
     marginTop: "0.5rem",
     [theme.breakpoints.up("md")]: {
