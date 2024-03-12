@@ -1,14 +1,65 @@
-# Savings-Goal-Calculator
-components:
-- header
-- card
-- modal
+## Saving Goal Calculator
 
-# React + Vite
+The Saving Goal Plan
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Technical stack
+- Frontend
+  - **ReactJS** build user interfaces
+  - **Material UI** React component library that implements Google's Material Design
 
-Currently, two official plugins are available:
+- Infrastructure
+  - Postgres, RabbitMQ
+  - docker and docker-compose
+  - Kong API gateway
+  - B2 Cloud storage
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Design patterns
+- Strategy pattern used for file-processor in recorder
+
+### Best practices
+- Rate limit for all route
+- Size limit 1MB
+- Optimize docker image use multi-stage builds and .dockerignore
+- Specific Docker image versions
+
+### Folder structure
+
+```
+apps
+├── api # responsible for handling incoming requests and returning responses to the client.
+└── recorder # recorder consume messages from queues, and insert data into DB
+    └── src
+        └── file-processor
+libs
+└── shared # shares features, types, constants, and services used by (micro) services in apps directory
+    └── src
+        ├── common
+        ├── decorators
+        ├── entities
+        ├── guards
+        ├── index.ts
+        ├── interfaces
+        ├── modules
+        ├── services
+        └── utils
+```
+
+### Local machine
+- Install dependencies
+```bash
+PORT=3000
+$ yarn install
+```
+
+### Running the app
+
+```bash
+# development
+$ yarn run start
+
+# watch mode
+$ yarn run start:dev
+
+# production mode
+$ yarn run start:prod
+```
