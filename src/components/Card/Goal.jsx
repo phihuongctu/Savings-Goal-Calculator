@@ -359,7 +359,7 @@ function CardGoal() {
                 </MonthAmountBox>
                 <ButtonConfirm onClick={handleOpen}>Confirm</ButtonConfirm>
             </StyledCard>
-            <ModalConfirm amount={amount} reachDate={totalMonth} monthly={formattedMonthlyAmount} currency={currency} open={open} close={handleClose} />
+            <ModalConfirm amount={amountResult} reachDate={totalMonth} monthly={formattedMonthlyAmount} currency={currency} open={open} close={handleClose} />
         </>
     );
 }

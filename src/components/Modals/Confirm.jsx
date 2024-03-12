@@ -3,20 +3,32 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
+import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
+import { Grid, IconButton, Stack, styled } from "@mui/material";
 
-const style = {
+const ModalBox = styled(Box)(({ theme }) => ({
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-};
+    width: "calc(100% - 2rem )",
+    maxWidth: "400px",
+    backgroundColor: "#fff",
+    boxShadow: "0 1rem 2rem 0px rgba(30, 42, 50, 0.08)",
+    padding: "1.5rem",
+    borderRadius: "0.5rem",
+    [theme.breakpoints.up]: {
+        width: "100%",
+    },
+}));
+
+const ButtonClose = styled(IconButton)(({ theme }) => ({
+    position: "absolute",
+    top: ".5rem",
+    right: ".5rem",
+    background: "rgba(0,0,0,0.08)",
+}));
 
 function ModalConfirm({ amount, reachDate, monthly, currency, open, close }) {
     return (
@@ -34,17 +46,17 @@ function ModalConfirm({ amount, reachDate, monthly, currency, open, close }) {
                     },
                 }}>
                 <Fade in={open}>
-                    <Box sx={style}>
+                    <ModalBox>
+                        <ButtonClose aria-label="close" onClick={close}>
+                            <CloseIcon />
+                        </ButtonClose>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
                             Summary Saving Goal
-                            {`Summary `}
                         </Typography>
-                        <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                            {` Amount: ${currency}${amount} `}
-                        </Typography>
+                        <Typography sx={{ mt: 2 }}>{` Amount: ${currency}${amount} `}</Typography>
                         <Typography sx={{ mt: 2 }}>{` Reach Date: ${reachDate} month`}</Typography>
                         <Typography sx={{ mt: 2 }}>{`Monthly Deposit: ${currency}${monthly} `}</Typography>
-                    </Box>
+                    </ModalBox>
                 </Fade>
             </Modal>
         </div>
