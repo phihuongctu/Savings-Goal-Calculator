@@ -182,6 +182,10 @@ const InfoDetail = styled(Box)(({ theme }) => ({
     color: "rgba(28, 30, 31, 1)",
     padding: "1.5rem 2rem",
     backgroundColor: "rgba(244, 248, 250, 1)",
+    "& span":{
+        fontSize:'0.75rem',
+        fontWeight:"600"
+    },
     [theme.breakpoints.up("md")]: {
         textAlign: "left",
     },
@@ -205,6 +209,12 @@ const ButtonConfirm = styled(Button)(({ theme }) => ({
         backgroundColor: theme.palette.secondary.main,
     },
 }));
+
+//Mockup data services
+const DataServices = {
+    name: "Buy a house",
+    icon: IconHouse,
+};
 
 function CardGoal() {
     const formatCurrency = useFormatterCurrency();
@@ -291,9 +301,9 @@ function CardGoal() {
         <>
             <StyledCard>
                 <Stack direction={"row"} gap={2} alignItems={"center"}>
-                    <Box component="img" alt="Icon House" src={IconHouse} />
+                    <Box component="img" alt="Icon House" src={DataServices.icon} />
                     <Stack gap={0.5}>
-                        <GoalTitle>Buy a house</GoalTitle>
+                        <GoalTitle>{DataServices.name}</GoalTitle>
                         <GoalSubTitle>Saving goal</GoalSubTitle>
                     </Stack>
                 </Stack>
@@ -343,23 +353,32 @@ function CardGoal() {
                     </TitleBox>
                     <InfoDetail>
                         You’re planning&nbsp;
-                        <Typography fontSize={12} component={"span"} fontWeight={600}>
-                            {totalMonth} monthly deposits&nbsp;
-                        </Typography>
+                        <Typography component={"span"}>{totalMonth} monthly deposits&nbsp;</Typography>
                         to reach your&nbsp;
-                        <Typography fontSize={12} component={"span"} fontWeight={600}>
+                        <Typography component={"span"}>
                             {currency}
                             {amountResult}&nbsp;
                         </Typography>
                         goal by&nbsp;
-                        <Typography fontSize={12} component={"span"} fontWeight={600}>
+                        <Typography component={"span"}>
                             {month} {year}.
                         </Typography>
                     </InfoDetail>
                 </MonthAmountBox>
                 <ButtonConfirm onClick={handleOpen}>Confirm</ButtonConfirm>
             </StyledCard>
-            <ModalConfirm amount={amountResult} reachDate={totalMonth} monthly={formattedMonthlyAmount} currency={currency} open={open} close={handleClose} />
+            <ModalConfirm
+                serviceName={DataServices.name}
+                icon={DataServices.icon}
+                amount={amountResult}
+                reachDate={totalMonth}
+                monthlyDeposits={formattedMonthlyAmount}
+                month={month}
+                year={year}
+                currency={currency}
+                open={open}
+                close={handleClose}
+            />
         </>
     );
 }
