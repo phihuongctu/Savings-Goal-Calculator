@@ -7,11 +7,11 @@ const StyledHeader = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "left",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: theme.palette.header.main,
     padding: "1rem",
     [theme.breakpoints.up("md")]: {
-        padding: "1.5rem 2.5rem"
-    }
+        padding: "1.5rem 2.5rem",
+    },
 }));
 
 function Header() {
