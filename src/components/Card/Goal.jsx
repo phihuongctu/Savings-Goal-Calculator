@@ -1,6 +1,6 @@
+import { theme } from "~/configs/ThemeConfig";
 import { useState, useEffect } from "react";
 import useFormatterCurrency from "~/utils/currencyFormat";
-import theme from "~/configs/ThemeConfig";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -14,7 +14,6 @@ import IconHouse from "~/assets/icons/icon-house.svg";
 import IconDollar from "~/assets/icons/icon-dollar-sign.svg";
 import IconArrowLeft from "~/assets/icons/icon-chevron-left.svg";
 import IconArrowRight from "~/assets/icons/icon-chevron-right.svg";
-import CardResult from "./Result";
 
 const StyledCard = styled(Card)(({ theme }) => ({
     display: "flex",
@@ -32,6 +31,39 @@ const StyledCard = styled(Card)(({ theme }) => ({
     },
 }));
 
+const GoalTitle = styled(Typography)(({ theme }) => ({
+    fontFamily: "Rubik",
+    fontSize: "1.25rem",
+    fontWeight: "500",
+    lineHeight: "1.5rem",
+    color: "rgba(30, 42, 50, 1)",
+    [theme.breakpoints.up("md")]: {
+        fontSize: "1.5rem",
+        lineHeight: "1.75rem",
+    },
+}));
+
+const GoalSubTitle = styled(Typography)(({ theme }) => ({
+    fontSize: "0.875rem",
+    fontWeight: "400",
+    lineHeight: "1.25rem",
+    color: "rgba(112, 135, 151, 1)",
+    [theme.breakpoints.up("md")]: {
+        fontSize: "1rem",
+        lineHeight: "1.5rem",
+    },
+}));
+
+const Label = styled(InputLabel)(() => ({
+    fontSize: "0.875rem",
+    fontWeight: "400",
+    lineHeight: "1.25rem",
+    color: "rgba(30, 42, 50, 1)",
+    transform: "none",
+    position: "relative",
+    marginBottom: "0.25rem",
+}));
+
 const AmountInput = styled(Box)(({ theme }) => ({
     fontFamily: "Rubik",
     fontSize: "1.25rem",
@@ -45,7 +77,7 @@ const AmountInput = styled(Box)(({ theme }) => ({
     outline: "none",
     width: "100%",
     ":hover, :focus": {
-        borderColor: theme.palette.primary.lightBlue,
+        borderColor: theme.palette.secondary.main,
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "1.5rem",
@@ -61,17 +93,14 @@ const IconAmount = styled(Box)({
     width: 24,
 });
 
-const ReachDateBox = styled(Stack)(({ theme }) => ({
+const ReachDateBox = styled(Stack)({
     border: "1px solid rgba(233, 238, 242, 1)",
     borderRadius: "0.25rem",
     padding: "0",
     height: "3.5rem",
     alignItems: "center",
     justifyContent: "space-between",
-    ":hover, :focus": {
-        borderColor: theme.palette.primary.lightBlue,
-    },
-}));
+});
 
 const ReachDateInput = styled("input")(({ theme }) => ({
     fontFamily: "Work Sans",
@@ -80,14 +109,14 @@ const ReachDateInput = styled("input")(({ theme }) => ({
     fontWeight: "600",
     lineHeight: "1.25rem",
     textAlign: "center",
-    color: theme.palette.primary.text,
+    color: "rgba(30, 42, 50, 1)",
     borderRadius: 4,
     padding: "0",
     border: "none",
     outline: "none",
 
     ":hover, :focus": {
-        borderColor: theme.palette.primary.lightBlue,
+        borderColor: theme.palette.secondary.main,
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "1rem",
@@ -101,6 +130,66 @@ const ButtonArrow = styled(IconButton)({
     padding: 0,
     borderRadius: "initial",
 });
+
+const MonthAmountBox = styled(Box)(({ theme }) => ({
+    border: "1px solid rgba(233, 238, 242, 1)",
+    borderRadius: "0.5rem",
+    marginTop: "0.5rem",
+    [theme.breakpoints.up("md")]: {
+        marginTop: "0",
+    },
+}));
+
+const MonthTitle = styled(Typography)({
+    fontSize: "1.125rem",
+    fontWeight: "400",
+    lineHeight: "1.25rem",
+    color: "rgba(30, 42, 50, 1)",
+    [theme.breakpoints.up("md")]: {
+        fontSize: "1.25rem",
+        lineHeight: "1.5rem",
+    },
+});
+
+const MonthPrice = styled(Typography)(({ theme }) => ({
+    fontFamily: "Rubik",
+    fontSize: "1.5rem",
+    fontWeight: "500",
+    lineHeight: "1.75rem",
+    color: theme.palette.secondary.main,
+    [theme.breakpoints.up("md")]: {
+        fontSize: "2rem",
+        lineHeight: "2.375rem",
+    },
+}));
+
+const TitleBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "1.5rem",
+    [theme.breakpoints.up("md")]: {
+        padding: "1.5rem 2rem 1rem",
+    },
+}));
+
+const InfoDetail = styled(Box)(({ theme }) => ({
+    fontFamily: "Work Sans",
+    fontSize: "0.75rem",
+    fontWeight: "400",
+    lineHeight: "1rem",
+    textAlign: "center",
+    color: "rgba(28, 30, 31, 1)",
+    padding: "1.5rem 2rem",
+    backgroundColor: "rgba(244, 248, 250, 1)",
+    "& span":{
+        fontSize:'0.75rem',
+        fontWeight:"600"
+    },
+    [theme.breakpoints.up("md")]: {
+        textAlign: "left",
+    },
+}));
 
 const ButtonConfirm = styled(Button)(({ theme }) => ({
     fontSize: "1rem",
@@ -117,11 +206,11 @@ const ButtonConfirm = styled(Button)(({ theme }) => ({
     borderRadius: "99px",
     marginTop: "0.5rem",
     ":hover": {
-        backgroundColor: theme.palette.primary.lightBlue,
+        backgroundColor: theme.palette.secondary.main,
     },
 }));
 
-// Mockup data services
+//Mockup data services
 const DataServices = {
     name: "Buy a house",
     icon: IconHouse,
@@ -133,37 +222,30 @@ function CardGoal() {
     const [reachDate, setReachDate] = useState(new Date());
     const [totalMonth, setTotalMonth] = useState(0);
     const [isDateFocused, setIsDateFocused] = useState(false);
-
-    // Xử lí modal
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const currentDay = new Date();
     const currency = "$";
-
-    // Lấy giá trị tháng, năm sau khi user đã chọn trong input Reach Date
     const dateInfo = new Date(reachDate);
     const month = dateInfo.toLocaleDateString("en-US", { month: "long" });
     const year = dateInfo.toLocaleDateString("en-US", { year: "numeric" });
 
-    // Kiểm tra nếu input amount rỗng thì set amountResult = 0
-    const amountResult = amount !== "" ? amount : 0;
-
-    // Chuyển đổi một chuỗi số có thể chứa dấu phẩy sang dạng số thực
+    // kiểm tra xem amount có rỗng hay không
     let parseAmount = 0;
     if (amount.trim() !== "") {
         parseAmount = parseFloat(amount.replace(/,/g, ""));
     }
 
-    // Kiểm tra tổng số tháng đã chọn phải khác 0 thì mới tính kết quả
+    const amountResult = amount !== "" ? amount : 0;
+    // kiểm tra tổng số tháng đã chọn phải khác 0
     const monthlyAmount = totalMonth !== 0 ? parseAmount / totalMonth : 0;
     const formattedMonthlyAmount = monthlyAmount.toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     });
 
-    // Xử lí khi input month được focus thì trigger arrow keyboard
     useEffect(() => {
         const handleKeyPress = (event) => {
             if (isDateFocused) {
@@ -178,31 +260,27 @@ function CardGoal() {
         return () => {
             document.removeEventListener("keydown", handleKeyPress);
         };
-    }, [reachDate, isDateFocused]);
+    }, [reachDate, setIsDateFocused]);
 
     const handleInputMonthFocus = () => {
         setIsDateFocused(true);
-        console.log("click true");
     };
 
     const handleInputMonthBlur = () => {
         setIsDateFocused(false);
-        console.log("click false");
     };
 
-    // Kiểm tra xem giá trị hiện tại có phải là tháng trước không
+    //Kiểm tra xem giá trị hiện tại có phải là tháng trước không
     const isPastMonth = (date) => {
         return date.getFullYear() < currentDay.getFullYear() || (date.getFullYear() === currentDay.getFullYear() && date.getMonth() < currentDay.getMonth());
     };
 
-    const handleInputAmount = (event) => {
+    const handleChange = (event) => {
         const inputAmount = event.target.value;
-        //loại bỏ tất cả các ký tự không phải là số và dấu chấm(.)
         const formattedValue = formatCurrency(inputAmount.replace(/[^0-9.]/g, ""));
         setAmount(formattedValue);
     };
 
-    // Xử lí chỉ giảm tháng đến tháng hiện tại
     const handlePrevMonth = () => {
         const prevMonth = new Date(reachDate.getFullYear(), reachDate.getMonth() - 1);
         if (!isPastMonth(prevMonth)) {
@@ -211,11 +289,12 @@ function CardGoal() {
         }
     };
 
-    // Xử lí tăng tháng lên
     const handleNextMonth = () => {
         const nextMonth = new Date(reachDate.getFullYear(), reachDate.getMonth() + 1);
-        setReachDate(nextMonth);
-        setTotalMonth(nextMonth.getMonth() - currentDay.getMonth() + 12 * (nextMonth.getFullYear() - currentDay.getFullYear()));
+        if (!isPastMonth(nextMonth)) {
+            setReachDate(nextMonth);
+            setTotalMonth(nextMonth.getMonth() - currentDay.getMonth() + 12 * (nextMonth.getFullYear() - currentDay.getFullYear()));
+        }
     };
 
     return (
@@ -224,19 +303,15 @@ function CardGoal() {
                 <Stack direction={"row"} gap={2} alignItems={"center"}>
                     <Box component="img" alt="Icon House" src={DataServices.icon} />
                     <Stack gap={0.5}>
-                        <Typography variant="h4" color={"primary.text"}>
-                            {DataServices.name}
-                        </Typography>
-                        <Typography variant="body1" color={"primary.subtitle"}>
-                            Saving goal
-                        </Typography>
+                        <GoalTitle>{DataServices.name}</GoalTitle>
+                        <GoalSubTitle>Saving goal</GoalSubTitle>
                     </Stack>
                 </Stack>
                 <Grid container columnSpacing={{ xs: 0, md: 2 }} rowSpacing={{ xs: 2, md: 0 }} alignItems={"center"}>
                     <Grid item xs={12} md={7}>
-                        <Typography variant="body2" component={"label"} htmlFor="amount" color={"primary.text"}>
+                        <Label component={"label"} htmlFor="amount">
                             Total amount
-                        </Typography>
+                        </Label>
                         <Stack direction={"row"} gap={1} alignItems={"center"} position={"relative"}>
                             <IconAmount
                                 component="img"
@@ -247,26 +322,20 @@ function CardGoal() {
                                 alt="Icon amount"
                                 src={IconDollar}
                             />
-                            <AmountInput component={"input"} id="amount" className="amount" type="text" placeholder="0" value={amount} onChange={handleInputAmount} />
+                            <AmountInput component={"input"} id="amount" className="amount" type="text" placeholder="0" value={amount} onChange={handleChange} />
                         </Stack>
                     </Grid>
-                    <Grid item xs={12} md={5}>
-                        <Typography variant="body2" component={"label"} htmlFor="amount" color={"primary.text"}>
+                    <Grid item xs={12} md={5} onFocus={handleInputMonthFocus} onBlur={handleInputMonthBlur}>
+                        <Label component={"label"} htmlFor="ReachGoal">
                             Reach goal by
-                        </Typography>
-                        <ReachDateBox
-                            direction={"row"}
-                            onFocus={handleInputMonthFocus}
-                            onBlur={handleInputMonthBlur}
-                            sx={{
-                                borderColor: isDateFocused ? theme.palette.primary.lightBlue : "rgba(233, 238, 242, 1)",
-                            }}>
+                        </Label>
+                        <ReachDateBox direction={"row"}>
                             <ButtonArrow onClick={handlePrevMonth} aria-label="prev month">
                                 <img src={IconArrowLeft} width={24} height={24} alt="prev month" />
                             </ButtonArrow>
                             <Stack direction={"column"} alignItems={"center"}>
                                 <ReachDateInput value={reachDate.toLocaleDateString("en-US", { month: "long" })} readOnly />
-                                <ReachDateInput sx={{ fontWeight: 400, color: theme.palette.primary.subtitle }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })} readOnly />
+                                <ReachDateInput sx={{ fontWeight: 400 }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })} readOnly />
                             </Stack>
                             <ButtonArrow onClick={handleNextMonth} aria-label="next month">
                                 <img src={IconArrowRight} width={24} height={24} alt="next month" />
@@ -274,10 +343,29 @@ function CardGoal() {
                         </ReachDateBox>
                     </Grid>
                 </Grid>
-                <CardResult amountResult={amountResult} totalMonth={totalMonth} monthlyAmount={formattedMonthlyAmount} month={month} year={year} currency={currency} />
-                <ButtonConfirm disabled={amount !== 0 ? false : true} onClick={handleOpen}>
-                    Confirm
-                </ButtonConfirm>
+                <MonthAmountBox>
+                    <TitleBox>
+                        <MonthTitle>Monthly amount</MonthTitle>
+                        <MonthPrice>
+                            {currency}
+                            {formattedMonthlyAmount}
+                        </MonthPrice>
+                    </TitleBox>
+                    <InfoDetail>
+                        You’re planning&nbsp;
+                        <Typography component={"span"}>{totalMonth} monthly deposits&nbsp;</Typography>
+                        to reach your&nbsp;
+                        <Typography component={"span"}>
+                            {currency}
+                            {amountResult}&nbsp;
+                        </Typography>
+                        goal by&nbsp;
+                        <Typography component={"span"}>
+                            {month} {year}.
+                        </Typography>
+                    </InfoDetail>
+                </MonthAmountBox>
+                <ButtonConfirm onClick={handleOpen}>Confirm</ButtonConfirm>
             </StyledCard>
             <ModalConfirm
                 serviceName={DataServices.name}
