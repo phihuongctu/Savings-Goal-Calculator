@@ -27,7 +27,7 @@ let theme = createTheme({
     },
 });
 
-//responsive
+//use responsive
 theme = createTheme(theme, {
     typography: {
         headingMedium: {

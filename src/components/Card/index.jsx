@@ -7,7 +7,6 @@ import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid, IconButton, Stack, styled } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
 
 import ModalConfirm from "../Modals/Confirm";
 import IconHouse from "~/assets/icons/icon-house.svg";
@@ -182,12 +181,10 @@ function CardGoal() {
 
     const handleInputMonthFocus = () => {
         setIsDateFocused(true);
-        console.log("click true");
     };
 
     const handleInputMonthBlur = () => {
         setIsDateFocused(false);
-        console.log("click false");
     };
 
     // Kiểm tra xem giá trị hiện tại có phải là tháng trước không
@@ -275,7 +272,7 @@ function CardGoal() {
                     </Grid>
                 </Grid>
                 <CardResult amountResult={amountResult} totalMonth={totalMonth} monthlyAmount={formattedMonthlyAmount} month={month} year={year} currency={currency} />
-                <ButtonConfirm disabled={amount !== 0 ? false : true} onClick={handleOpen}>
+                <ButtonConfirm disabled={monthlyAmount !== 0 ? false : true} onClick={handleOpen}>
                     Confirm
                 </ButtonConfirm>
             </StyledCard>
