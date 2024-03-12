@@ -8,7 +8,7 @@ The Saving Goal Plan
     -   **ReactJS** as build user interfaces
     -   **Material UI** as React component library that implements Google's Material Design
 
--   Tool
+-   Tools
     -   **Eslint** find and fix problems in your JavaScript code
     -   **Vite** is a build tool to provide a faster and leaner development experience for modern web projects
 
@@ -16,39 +16,33 @@ The Saving Goal Plan
 -   Strategy pattern used for file-processor in recorder
 
 ### Best practices
--   Rate limit for all route
--   Size limit 1MB
--   Optimize docker image use multi-stage builds and .dockerignore
--   Specific Docker image versions
+-
 
 ### Folder structure
 ```
-public #Assets Outside of the Module System
-    └── favicon.ico
+public # Assets Outside of the Module System
+└── favicon.ico
 src # shares features, page
-    ├── assets
-    ├── component
-    ├── configs
-    ├── page
-    ├── utils
-    └── main.jsx
-```
-
-### Local machine
--   Install dependencies
-```bash
-PORT=5173
-$ npm install
+├── assets
+├── component
+├── configs
+├── page
+├── utils
+└── main.jsx
 ```
 
 ### Running the app
 ```bash
-# development
+#Install dependencies
+PORT=5173
+$ npm install
+
+# Development
 $ npm run dev
 
-# testing
-$ yarn run lint
+# Testing
+$ npm run lint
 
-# build
-$ yarn run build
+# Build
+$ npm run build
 ```
