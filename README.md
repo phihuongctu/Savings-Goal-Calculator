@@ -3,11 +3,9 @@
 The Saving Goal Plan
 
 ### Technical stack
-
 -   Frontend
     -   **ReactJS** as build user interfaces
     -   **Material UI** as React component library that implements Google's Material Design
-
 -   Tools
     -   **Eslint** find and fix problems in your JavaScript code
     -   **Vite** is a build tool to provide a faster and leaner development experience for modern web projects
