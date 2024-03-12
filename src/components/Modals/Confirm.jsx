@@ -64,18 +64,18 @@ function ModalConfirm({ serviceName, icon, amount, reachDate, monthlyDeposits, m
                 }}>
                 <Fade in={open}>
                     <ModalBox>
-                        <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
-                            <Typography id="transition-modal-title" variant="h4" textTransform={"capitalize"}>
+                        <Stack direction="row" alignItems="center" justifyContent="space-between">
+                            <Typography id="transition-modal-title" variant="h4" textTransform="capitalize">
                                 {serviceName}
                             </Typography>
                             <ButtonClose aria-label="close" onClick={close}>
                                 <CloseIcon />
                             </ButtonClose>
                         </Stack>
-                        <Stack alignItems={"center"} gap={0}>
+                        <Stack alignItems="center" gap={0}>
                             <Box component="img" alt={serviceName} src={icon} width={100} height={100} />
-                            <Typography variant="h5" color={"primary.lightBlue"} fontWeight={500}>{`${currency}${monthlyDeposits} monthly`}</Typography>
-                            <Typography variant="caption" textAlign={"center"} mt={0.5}>
+                            <Typography variant="h5" color="primary.lightBlue" fontWeight={500}>{`${currency}${monthlyDeposits} monthly`}</Typography>
+                            <Typography variant="caption" textAlign="center" mt={0.5}>
                                 Your planned success involves making <b>{reachDate} monthly deposits</b> to reach your <b>{currency}{amount} </b> goal by <b>{month} {year}</b>.
                             </Typography>
                         </Stack>

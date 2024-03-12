@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
             <Header />
-            <Container component={"main"} maxWidth={"xl"} sx={{ padding: 0 }}>
+            <Container component="main" maxWidth="xl" sx={{ padding: 0 }}>
                 <SavingGoal />
             </Container>
         </ThemeProvider>

@@ -16,7 +16,7 @@ const StyledHeader = styled(Box)(({ theme }) => ({
 
 function Header() {
     return (
-        <StyledHeader component={"header"}>
+        <StyledHeader component="header">
             <img src={logo} width="100" height="32" alt="Logo" />
         </StyledHeader>
     );

@@ -67,6 +67,7 @@ const ReachDateBox = styled(Stack)(({ theme }) => ({
     height: "3.5rem",
     alignItems: "center",
     justifyContent: "space-between",
+    marginTop:'0.25rem',
     ":hover, :focus": {
         borderColor: theme.palette.primary.lightBlue,
     },
@@ -223,23 +224,23 @@ function CardGoal() {
     return (
         <>
             <StyledCard>
-                <Stack direction={"row"} gap={2} alignItems={"center"}>
+                <Stack direction="row" gap={2} alignItems="center">
                     <Box component="img" alt="Icon House" src={DataServices.icon} />
                     <Stack gap={0.5}>
-                        <Typography variant="h4" color={"primary.text"}>
+                        <Typography variant="h4" color="primary.text">
                             {DataServices.name}
                         </Typography>
-                        <Typography variant="body1" color={"primary.subtitle"}>
+                        <Typography variant="body1" color="primary.subtitle">
                             Saving goal
                         </Typography>
                     </Stack>
                 </Stack>
-                <Grid container columnSpacing={{ xs: 0, md: 2 }} rowSpacing={{ xs: 2, md: 0 }} alignItems={"center"}>
-                    <Grid item xs={12} md={7}>
-                        <Typography variant="body2" component={"label"} htmlFor="amount" color={"primary.text"}>
+                <Grid container columnSpacing={{ xs: 0, md: 2 }} rowSpacing={{ xs: 2, md: 0 }} alignItems="center">
+                    <Grid item xs={12} md={7} >
+                        <Typography variant="body2" component="label" htmlFor="amount" color="primary.text">
                             Total amount
                         </Typography>
-                        <Stack direction={"row"} gap={1} alignItems={"center"} position={"relative"}>
+                        <Stack direction="row" gap={1} alignItems="center" position="relative" mt={0.5}>
                             <IconAmount
                                 component="img"
                                 sx={{
@@ -249,15 +250,15 @@ function CardGoal() {
                                 alt="Icon amount"
                                 src={IconDollar}
                             />
-                            <AmountInput component={"input"} id="amount" className="amount" type="text" placeholder="0" value={amount} onChange={handleInputAmount} />
+                            <AmountInput component="input" id="amount" className="amount" type="text" placeholder="0" value={amount} onChange={handleInputAmount} />
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={5}>
-                        <Typography variant="body2" component={"label"} htmlFor="amount" color={"primary.text"}>
+                        <Typography variant="body2" component="label" htmlFor="reachDate" color="primary.text">
                             Reach goal by
                         </Typography>
                         <ReachDateBox
-                            direction={"row"}
+                            direction="row"
                             onFocus={handleInputMonthFocus}
                             onBlur={handleInputMonthBlur}
                             sx={{
@@ -266,9 +267,9 @@ function CardGoal() {
                             <ButtonArrow onClick={handlePrevMonth} aria-label="prev month">
                                 <img src={IconArrowLeft} width={24} height={24} alt="prev month" />
                             </ButtonArrow>
-                            <Stack direction={"column"} alignItems={"center"}>
+                            <Stack direction="column" alignItems="center">
                                 <ReachDateInput value={reachDate.toLocaleDateString("en-US", { month: "long" })} readOnly />
-                                <ReachDateInput sx={{ fontWeight: 400, color: theme.palette.primary.subtitle }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })} readOnly />
+                                <ReachDateInput id="reachDate" sx={{ fontWeight: 400, color: theme.palette.primary.subtitle }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })}  readOnly/>
                             </Stack>
                             <ButtonArrow onClick={handleNextMonth} aria-label="next month">
                                 <img src={IconArrowRight} width={24} height={24} alt="next month" />

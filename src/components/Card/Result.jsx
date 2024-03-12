@@ -44,16 +44,16 @@ function CardResult({ currency, monthlyAmount, totalMonth, amountResult, month, 
     return (
         <MonthAmountBox>
             <TitleBox>
-                <Typography variant="h6" color={"primary.text"}>
+                <Typography variant="h6" color="primary.text">
                     Monthly amount
                 </Typography>
-                <Typography variant="headingMedium" color={"primary.lightBlue"}>
+                <Typography variant="headingMedium" color="primary.lightBlue">
                     {currency}
                     {monthlyAmount}
                 </Typography>
             </TitleBox>
             <InfoDetail>
-                You’re planning <Typography component={"span"}>{totalMonth} monthly deposits </Typography>to reach your <Typography component={"span"}>{currency}{amountResult}</Typography> goal by <Typography component={"span"}>{month} {year}.</Typography>
+                You’re planning <Typography component="span">{totalMonth} monthly deposits </Typography>to reach your <Typography component="span">{currency}{amountResult}</Typography> goal by <Typography component="span">{month} {year}.</Typography>
             </InfoDetail>
         </MonthAmountBox>
     );

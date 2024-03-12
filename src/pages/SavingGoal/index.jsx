@@ -17,9 +17,9 @@ const Description = styled(Typography)(({ theme }) => ({
 function SavingGoal() {
     return (
         <Stack alignItems="center" gap={3}>
-            <Description color={"primary"}>
+            <Description color="primary">
                 Lets plan your&nbsp;
-                <Typography variant="h6" component={"span"} fontWeight={600}>
+                <Typography variant="h6" component="span" fontWeight={600}>
                     saving goal.
                 </Typography>
             </Description>
