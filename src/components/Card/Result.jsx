@@ -1,4 +1,3 @@
-@ -0, 0 + 1, 62 @@
 import theme from "~/configs/ThemeConfig";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
