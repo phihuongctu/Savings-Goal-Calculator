@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
 import { Stack, styled } from "@mui/material";
 
-import CardGoal from "~/components/Card/Goal";
+import CardGoal from "~/components/Card";
 
 const Description = styled(Typography)(({ theme }) => ({
     fontSize: "1.25rem",
@@ -19,7 +19,7 @@ function SavingGoal() {
         <Stack alignItems="center" gap={3}>
             <Description color={"primary"}>
                 Lets plan your&nbsp;
-                <Typography sx={{ fontSize: 20 }} component={"span"} fontWeight={600}>
+                <Typography variant="h6" component={"span"} fontWeight={600}>
                     saving goal.
                 </Typography>
             </Description>
