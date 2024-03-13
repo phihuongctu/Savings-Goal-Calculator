@@ -29,6 +29,7 @@ src # shares features, page, component, constant, assets
 ├── component
 ├── configs
 ├── page
+├── test
 ├── utils
 └── main.jsx
 ```
