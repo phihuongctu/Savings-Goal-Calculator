@@ -4,7 +4,10 @@
 
 The Saving Goal Plan Calculator
 
-### Technical stack
+### Live Server
+https://savings-goal-calculator-phihuongctu.vercel.app/
+
+### Technical Stack
 -   Frontend
     -   **ReactJS** as build user interfaces
     -   **Material UI** as React component library that implements Google's Material Design
