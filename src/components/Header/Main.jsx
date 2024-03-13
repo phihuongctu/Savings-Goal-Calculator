@@ -13,10 +13,19 @@ const StyledHeader = styled(Box)(({ theme }) => ({
     }
 }));
 
+const Logo = styled("img")(({ theme }) => ({
+    width: "75px",
+    height: "1.5rem",
+    [theme.breakpoints.up("md")]: {
+        width: "100px",
+        height: "2rem"
+    }
+}));
+
 function Header() {
     return (
         <StyledHeader component="header">
-            <img src={logo} width="100" height="32" alt="Logo" />
+            <Logo src={logo} alt="Logo" />
         </StyledHeader>
     );
 }
