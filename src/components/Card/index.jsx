@@ -7,13 +7,17 @@ import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid, IconButton, Stack, styled } from "@mui/material";
+import SvgIcon from '@mui/material/SvgIcon';
 
+import CardResult from "./Result";
+import CardHeader from "./Header";
 import ModalConfirm from "../Modals/Confirm";
+
 import IconHouse from "~/assets/icons/icon-house.svg";
 import IconDollar from "~/assets/icons/icon-dollar-sign.svg";
 import IconArrowLeft from "~/assets/icons/icon-chevron-left.svg";
 import IconArrowRight from "~/assets/icons/icon-chevron-right.svg";
-import CardResult from "./Result";
+
 
 const StyledCard = styled(Card)(({ theme }) => ({
     display: "flex",
@@ -67,7 +71,7 @@ const ReachDateBox = styled(Stack)(({ theme }) => ({
     height: "3.5rem",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop:'0.25rem',
+    marginTop: '0.25rem',
     ":hover, :focus": {
         borderColor: theme.palette.primary.lightBlue,
     },
@@ -129,19 +133,14 @@ const DataServices = {
 
 function CardGoal() {
     const formatCurrency = useFormatterCurrency();
+    const currentDay = new Date();
     const [amount, setAmount] = useState("");
-    const [reachDate, setReachDate] = useState(new Date());
+    const [reachDate, setReachDate] = useState(currentDay);
     const [totalMonth, setTotalMonth] = useState(0);
     const [isDateFocused, setIsDateFocused] = useState(false);
-
-    // Xử lí modal
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
 
-    const currentDay = new Date();
     const currency = "$";
-
     // Lấy giá trị tháng, năm sau khi user đã chọn trong input Reach Date
     const dateInfo = new Date(reachDate);
     const month = dateInfo.toLocaleDateString("en-US", { month: "long" });
@@ -150,13 +149,8 @@ function CardGoal() {
     // Kiểm tra nếu input amount rỗng thì set amountResult = 0
     const amountResult = amount !== "" ? amount : 0;
 
-
-
-    // Chuyển đổi một chuỗi số có thể chứa dấu phẩy sang dạng số thực
-    let parseAmount = 0;
-    if (amount.trim() !== "") {
-        parseAmount = parseFloat(amount.replace(/,/g, ""));
-    }
+    // Chuyển đổi một chuỗi số có chứa dấu phẩy sang dạng số thực
+    const parseAmount = amount.trim() !== "" ? parseFloat(amount.replace(/,/g, "")) : 0;
 
     // Kiểm tra tổng số tháng đã chọn phải khác 0 thì mới tính kết quả
     const monthlyAmount = totalMonth !== 0 ? parseAmount / totalMonth : 0;
@@ -184,6 +178,9 @@ function CardGoal() {
             document.removeEventListener("keydown", handleKeyPress);
         };
     }, [reachDate, isDateFocused]);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const handleInputMonthFocus = () => {
         setIsDateFocused(true);
@@ -224,17 +221,7 @@ function CardGoal() {
     return (
         <>
             <StyledCard>
-                <Stack direction="row" gap={2} alignItems="center">
-                    <Box component="img" alt="Icon House" src={DataServices.icon} />
-                    <Stack gap={0.5}>
-                        <Typography variant="h4" color="primary.text">
-                            {DataServices.name}
-                        </Typography>
-                        <Typography variant="body1" color="primary.subtitle">
-                            Saving goal
-                        </Typography>
-                    </Stack>
-                </Stack>
+                <CardHeader name={DataServices.name} icon={DataServices.icon} />
                 <Grid container columnSpacing={{ xs: 0, md: 2 }} rowSpacing={{ xs: 2, md: 0 }} alignItems="center">
                     <Grid item xs={12} md={7} >
                         <Typography variant="body2" component="label" htmlFor="amount" color="primary.text">
@@ -269,7 +256,7 @@ function CardGoal() {
                             </ButtonArrow>
                             <Stack direction="column" alignItems="center">
                                 <ReachDateInput value={reachDate.toLocaleDateString("en-US", { month: "long" })} readOnly />
-                                <ReachDateInput id="reachDate" sx={{ fontWeight: 400, color: theme.palette.primary.subtitle }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })}  readOnly/>
+                                <ReachDateInput id="reachDate" sx={{ fontWeight: 400, color: theme.palette.primary.subtitle }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })} readOnly />
                             </Stack>
                             <ButtonArrow onClick={handleNextMonth} aria-label="next month">
                                 <img src={IconArrowRight} width={24} height={24} alt="next month" />
@@ -278,11 +265,11 @@ function CardGoal() {
                     </Grid>
                 </Grid>
                 <CardResult amountResult={amountResult} totalMonth={totalMonth} monthlyAmount={formattedMonthlyAmount} month={month} year={year} currency={currency} />
-                <ButtonConfirm disabled={isMonthlyAmountZero} onClick={handleOpen}>
+                <ButtonConfirm disabled={isMonthlyAmountZero} onClick={handleOpen} sx={{ background: isMonthlyAmountZero ? theme.palette.primary.disable : theme.palette.primary.main }}>
                     Confirm
                 </ButtonConfirm>
             </StyledCard>
-            <ModalConfirm
+            {open && <ModalConfirm
                 serviceName={DataServices.name}
                 icon={DataServices.icon}
                 amount={amountResult}
@@ -293,7 +280,7 @@ function CardGoal() {
                 currency={currency}
                 open={open}
                 close={handleClose}
-            />
+            />}
         </>
     );
 }

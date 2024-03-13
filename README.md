@@ -10,11 +10,12 @@ The Saving Goal Plan
     -   **Eslint** find and fix problems in your JavaScript code
     -   **Vite** is a build tool to provide a faster and leaner development experience for modern web projects
 
-### Design patterns
--   Strategy pattern used for file-processor in recorder
-
 ### Best practices
--
+- Component-Based Architecture
+- Functional Components and Hooks
+- Code Splitting
+- Naming Conventions
+- Testing
 
 ### Folder structure
 ```

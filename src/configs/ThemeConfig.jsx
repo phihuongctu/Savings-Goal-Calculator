@@ -8,6 +8,7 @@ let theme = createTheme({
             subtitle: "rgba(112, 135, 151, 1)",
             lightBlue: "rgba(0, 121, 255, 1)",
             white: "rgba(255, 255, 255, 1)",
+            disable: "rgba(27, 49, 168, 0.14)"
         },
         header: {
             main: "rgba(255, 255, 255, 1)",
@@ -30,7 +31,7 @@ let theme = createTheme({
     },
 });
 
-//use responsive
+// responsive
 theme = createTheme(theme, {
     typography: {
         headingMedium: {
