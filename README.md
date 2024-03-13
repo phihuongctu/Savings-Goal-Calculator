@@ -4,7 +4,7 @@
 
 The Saving Goal Plan Calculator
 
-## Live Server
+### Live Server
 https://savings-goal-calculator.vercel.app/
 
 ### Technical stack
