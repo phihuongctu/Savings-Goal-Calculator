@@ -1,22 +1,21 @@
 import { useState, useEffect } from "react";
-import useFormatterCurrency from "~/utils/currencyFormat";
-import theme from "~/configs/ThemeConfig";
+import useFormatterCurrency from "../../utils/currencyFormat";
+import theme, { svg } from "../../configs/ThemeConfig";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid, IconButton, Stack, styled } from "@mui/material";
-import SvgIcon from '@mui/material/SvgIcon';
 
 import CardResult from "./Result";
 import CardHeader from "./Header";
 import ModalConfirm from "../Modals/Confirm";
 
-import IconHouse from "~/assets/icons/icon-house.svg";
-import IconDollar from "~/assets/icons/icon-dollar-sign.svg";
-import IconArrowLeft from "~/assets/icons/icon-chevron-left.svg";
-import IconArrowRight from "~/assets/icons/icon-chevron-right.svg";
+const IconHouse = svg("icon-house.svg")
+const IconDollar = svg("icon-dollar-sign.svg")
+const IconArrowLeft = svg("icon-chevron-left.svg")
+const IconArrowRight = svg("icon-chevron-right.svg")
 
 
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -128,7 +127,7 @@ const ButtonConfirm = styled(Button)(({ theme }) => ({
 // Mockup data services
 const DataServices = {
     name: "Buy a house",
-    icon: IconHouse,
+    icon: IconHouse
 };
 
 function CardGoal() {
@@ -237,7 +236,7 @@ function CardGoal() {
                                 alt="Icon amount"
                                 src={IconDollar}
                             />
-                            <AmountInput component="input" id="amount" className="amount" type="text" placeholder="0" value={amount} onChange={handleInputAmount} />
+                            <AmountInput component="input" id="amount" className="amount" type="text" aria-label="amount" placeholder="0" value={amount} onChange={handleInputAmount} />
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={5}>
@@ -255,8 +254,8 @@ function CardGoal() {
                                 <img src={IconArrowLeft} width={24} height={24} alt="prev month" />
                             </ButtonArrow>
                             <Stack direction="column" alignItems="center">
-                                <ReachDateInput value={reachDate.toLocaleDateString("en-US", { month: "long" })} readOnly />
-                                <ReachDateInput id="reachDate" sx={{ fontWeight: 400, color: theme.palette.primary.subtitle }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })} readOnly />
+                                <ReachDateInput id="reachDate" className="month" aria-label="month" value={reachDate.toLocaleDateString("en-US", { month: "long" })} readOnly />
+                                <ReachDateInput className="year" aria-label="year" sx={{ fontWeight: 400, color: theme.palette.primary.subtitle }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })} readOnly />
                             </Stack>
                             <ButtonArrow onClick={handleNextMonth} aria-label="next month">
                                 <img src={IconArrowRight} width={24} height={24} alt="next month" />

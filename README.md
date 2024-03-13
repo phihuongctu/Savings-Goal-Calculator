@@ -21,7 +21,7 @@ The Saving Goal Plan
 ```
 public # Assets Outside of the Module System
 └── favicon.ico
-src # shares features, page
+src # shares features, page, component, constant, assets
 ├── assets
 ├── component
 ├── configs

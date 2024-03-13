@@ -1,4 +1,3 @@
-import theme from "~/configs/ThemeConfig";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material";

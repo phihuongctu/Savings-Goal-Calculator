@@ -1,5 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
+export const svg = (svgNameFile) => `src/assets/icons/${svgNameFile}`;
+
 let theme = createTheme({
     palette: {
         primary: {

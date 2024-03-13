@@ -56,6 +56,7 @@ function ModalConfirm({ serviceName, icon, amount, reachDate, monthlyDeposits, m
                 onClose={close}
                 closeAfterTransition
                 slots={{ backdrop: Backdrop }}
+                data-testid="modal"
                 slotProps={{
                     backdrop: {
                         timeout: 500,
