@@ -4,9 +4,6 @@
 
 The Saving Goal Plan Calculator
 
-### Live Server
-https://savings-goal-calculator.vercel.app/
-
 ### Technical stack
 -   Frontend
     -   **ReactJS** as build user interfaces
