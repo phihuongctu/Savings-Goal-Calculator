@@ -10,6 +10,7 @@ The Saving Goal Plan Calculator
     -   **Material UI** as React component library that implements Google's Material Design
 -   Tools
     -   **Eslint** find and fix problems in your JavaScript code
+    -   **Jest** JavaScript testing framework designed to ensure correctness of any JavaScript codebase
     -   **Vite** is a build tool to provide a faster and leaner development experience for modern web projects
 
 ### Best practices
