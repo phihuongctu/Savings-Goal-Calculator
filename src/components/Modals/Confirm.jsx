@@ -20,8 +20,8 @@ const ModalBox = styled(Stack)(({ theme }) => ({
     gap: "1rem",
     [theme.breakpoints.up]: {
         width: "100%",
-        padding: "1rem 1.5rem",
-    },
+        padding: "1rem 1.5rem"
+    }
 }));
 
 const ButtonConfirm = styled(Button)(({ theme }) => ({
@@ -38,13 +38,13 @@ const ButtonConfirm = styled(Button)(({ theme }) => ({
     borderRadius: "99px",
     marginTop: "0.5rem",
     ":hover": {
-        backgroundColor: theme.palette.primary.main,
-    },
+        backgroundColor: theme.palette.primary.main
+    }
 }));
 
-const ButtonClose = styled(IconButton)(({ theme }) => ({
-    background: "rgba(0,0,0,0.08)",
-}));
+const ButtonClose = styled(IconButton)({
+    background: "rgba(0,0,0,0.08)"
+});
 
 function ModalConfirm({ serviceName, icon, amount, reachDate, monthlyDeposits, month, year, currency, open, close }) {
     return (
@@ -56,11 +56,10 @@ function ModalConfirm({ serviceName, icon, amount, reachDate, monthlyDeposits, m
                 onClose={close}
                 closeAfterTransition
                 slots={{ backdrop: Backdrop }}
-                data-testid="modal"
                 slotProps={{
                     backdrop: {
-                        timeout: 500,
-                    },
+                        timeout: 500
+                    }
                 }}>
                 <Fade in={open}>
                     <ModalBox>

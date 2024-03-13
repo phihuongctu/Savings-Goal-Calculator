@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import useFormatterCurrency from "../../utils/currencyFormat";
-import theme, { svg } from "../../configs/ThemeConfig";
+import theme, { Icon } from "../../configs/ThemeConfig";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -12,10 +12,10 @@ import CardResult from "./Result";
 import CardHeader from "./Header";
 import ModalConfirm from "../Modals/Confirm";
 
-const IconHouse = svg("icon-house.svg")
-const IconDollar = svg("icon-dollar-sign.svg")
-const IconArrowLeft = svg("icon-chevron-left.svg")
-const IconArrowRight = svg("icon-chevron-right.svg")
+const IconHouse = Icon("icon-house.svg")
+const IconDollar = Icon("icon-dollar-sign.svg")
+const IconArrowLeft = Icon("icon-chevron-left.svg")
+const IconArrowRight = Icon("icon-chevron-right.svg")
 
 
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -30,8 +30,8 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
     [theme.breakpoints.up("md")]: {
         padding: " 1.25rem 2rem 2.5rem",
-        gap: "1.5rem",
-    },
+        gap: "1.5rem"
+    }
 }));
 
 const AmountInput = styled(Box)(({ theme }) => ({
@@ -47,12 +47,12 @@ const AmountInput = styled(Box)(({ theme }) => ({
     outline: "none",
     width: "100%",
     ":hover, :focus": {
-        borderColor: theme.palette.primary.lightBlue,
+        borderColor: theme.palette.primary.lightBlue
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "1.5rem",
-        lineHeight: "1.75rem",
-    },
+        lineHeight: "1.75rem"
+    }
 }));
 
 const IconAmount = styled(Box)({
@@ -60,7 +60,7 @@ const IconAmount = styled(Box)({
     left: 12,
     top: 16,
     height: 24,
-    width: 24,
+    width: 24
 });
 
 const ReachDateBox = styled(Stack)(({ theme }) => ({
@@ -72,8 +72,8 @@ const ReachDateBox = styled(Stack)(({ theme }) => ({
     justifyContent: "space-between",
     marginTop: '0.25rem',
     ":hover, :focus": {
-        borderColor: theme.palette.primary.lightBlue,
-    },
+        borderColor: theme.palette.primary.lightBlue
+    }
 }));
 
 const ReachDateInput = styled("input")(({ theme }) => ({
@@ -90,19 +90,19 @@ const ReachDateInput = styled("input")(({ theme }) => ({
     outline: "none",
 
     ":hover, :focus": {
-        borderColor: theme.palette.primary.lightBlue,
+        borderColor: theme.palette.primary.lightBlue
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "1rem",
-        lineHeight: "1.5rem",
-    },
+        lineHeight: "1.5rem"
+    }
 }));
 
 const ButtonArrow = styled(IconButton)({
     height: "3.5rem",
     width: "3rem",
     padding: 0,
-    borderRadius: "initial",
+    borderRadius: "initial"
 });
 
 const ButtonConfirm = styled(Button)(({ theme }) => ({
@@ -120,8 +120,8 @@ const ButtonConfirm = styled(Button)(({ theme }) => ({
     borderRadius: "99px",
     marginTop: "0.5rem",
     ":hover": {
-        backgroundColor: theme.palette.primary.lightBlue,
-    },
+        backgroundColor: theme.palette.primary.lightBlue
+    }
 }));
 
 // Mockup data services
@@ -155,7 +155,7 @@ function CardGoal() {
     const monthlyAmount = totalMonth !== 0 ? parseAmount / totalMonth : 0;
     const formattedMonthlyAmount = monthlyAmount.toLocaleString("en-US", {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 2
     });
 
     //kiểm tra monthlyAmount có bằng 0
@@ -231,7 +231,7 @@ function CardGoal() {
                                 component="img"
                                 sx={{
                                     height: 24,
-                                    width: 24,
+                                    width: 24
                                 }}
                                 alt="Icon amount"
                                 src={IconDollar}

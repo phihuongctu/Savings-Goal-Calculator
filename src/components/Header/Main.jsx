@@ -1,6 +1,6 @@
 import { styled } from "@mui/material";
 import Box from "@mui/material/Box";
-import logo from "~/assets/logo.png";
+import logo from "/logo.png";
 
 const StyledHeader = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -9,8 +9,8 @@ const StyledHeader = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.header.main,
     padding: "1rem",
     [theme.breakpoints.up("md")]: {
-        padding: "1.5rem 2.5rem",
-    },
+        padding: "1.5rem 2.5rem"
+    }
 }));
 
 function Header() {

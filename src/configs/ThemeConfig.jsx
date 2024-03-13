@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
-export const svg = (svgNameFile) => `src/assets/icons/${svgNameFile}`;
+export const Icon = (svgNameFile) => `/icons/${svgNameFile}`;
 
 let theme = createTheme({
     palette: {
@@ -13,14 +13,14 @@ let theme = createTheme({
             disable: "rgba(27, 49, 168, 0.14)"
         },
         header: {
-            main: "rgba(255, 255, 255, 1)",
+            main: "rgba(255, 255, 255, 1)"
         },
         border:{
             main:"rgba(233, 238, 242, 1)"
         }
     },
     typography: {
-        fontFamily: ["Work Sans", "sans-serif"].join(","),
+        fontFamily: ["Work Sans", "sans-serif"].join(",")
     },
     breakpoints: {
         values: {
@@ -28,9 +28,9 @@ let theme = createTheme({
             sm: 600,
             md: 900,
             lg: 1200,
-            xl: 1440,
-        },
-    },
+            xl: 1440
+        }
+    }
 });
 
 // responsive
@@ -43,8 +43,8 @@ theme = createTheme(theme, {
             lineHeight: "1.75rem",
             [theme.breakpoints.up("md")]: {
                 fontSize: "2rem",
-                lineHeight: "2.375rem",
-            },
+                lineHeight: "2.375rem"
+            }
         },
         h4: {
             fontFamily: "Rubik",
@@ -53,8 +53,8 @@ theme = createTheme(theme, {
             lineHeight: "1.5rem",
             [theme.breakpoints.up("md")]: {
                 fontSize: "1.5rem",
-                lineHeight: "1.75rem",
-            },
+                lineHeight: "1.75rem"
+            }
         },
         h6: {
             fontSize: "1.125rem",
@@ -62,8 +62,8 @@ theme = createTheme(theme, {
             lineHeight: "1.25rem",
             [theme.breakpoints.up("md")]: {
                 fontSize: "1.25rem",
-                lineHeight: "1.5rem",
-            },
+                lineHeight: "1.5rem"
+            }
         },
         body1: {
             fontSize: "0.875rem",
@@ -71,8 +71,8 @@ theme = createTheme(theme, {
             lineHeight: "1.25rem",
             [theme.breakpoints.up("md")]: {
                 fontSize: "1rem",
-                lineHeight: "1.5rem",
-            },
+                lineHeight: "1.5rem"
+            }
         },
         body2: {
             fontSize: "0.875rem",
@@ -80,9 +80,9 @@ theme = createTheme(theme, {
             lineHeight: "1.25rem",
             transform: "none",
             position: "relative",
-            marginBottom: "0.25rem",
-        },
-    },
+            marginBottom: "0.25rem"
+        }
+    }
 });
 
 export default theme;
