@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import useFormatterCurrency from "../../utils/currencyFormat";
+import { currency, DataServices, isZero, langEnglish, debounce } from "../../utils/constants";
 import theme, { Icon } from "../../configs/ThemeConfig";
 
 import Box from "@mui/material/Box";
@@ -12,11 +13,9 @@ import CardResult from "./Result";
 import CardHeader from "./Header";
 import ModalConfirm from "../Modals/Confirm";
 
-const IconHouse = Icon("icon-house.svg")
 const IconDollar = Icon("icon-dollar-sign.svg")
 const IconArrowLeft = Icon("icon-chevron-left.svg")
 const IconArrowRight = Icon("icon-chevron-right.svg")
-
 
 const StyledCard = styled(Card)(({ theme }) => ({
     display: "flex",
@@ -124,42 +123,56 @@ const ButtonConfirm = styled(Button)(({ theme }) => ({
     }
 }));
 
-// Mockup data services
-const DataServices = {
-    name: "Buy a house",
-    icon: IconHouse
-};
-
 function CardGoal() {
     const formatCurrency = useFormatterCurrency();
     const currentDay = new Date();
     const [amount, setAmount] = useState("");
     const [reachDate, setReachDate] = useState(currentDay);
-    const [totalMonth, setTotalMonth] = useState(0);
+    const [totalMonth, setTotalMonth] = useState(isZero);
     const [isDateFocused, setIsDateFocused] = useState(false);
     const [open, setOpen] = useState(false);
 
-    const currency = "$";
+    const totalMonthOfYear = 12;
+    const DEBOUNCE_DELAY = 500;
+    const millionNumber = 999999999;
+
+    const getMonth = (date) => {
+        return date.toLocaleDateString(langEnglish, { month: "long" })
+    }
+    const getYear = (date) => {
+        return date.toLocaleDateString(langEnglish, { year: "numeric" })
+    }
+    const formatFractionDigits = (number, minFractionDigits, maxFractionDigits) => {
+        return number.toLocaleString(langEnglish, {
+            minimumFractionDigits: minFractionDigits,
+            maximumFractionDigits: maxFractionDigits
+        });
+    };
+
     // Lấy giá trị tháng, năm sau khi user đã chọn trong input Reach Date
     const dateInfo = new Date(reachDate);
-    const month = dateInfo.toLocaleDateString("en-US", { month: "long" });
-    const year = dateInfo.toLocaleDateString("en-US", { year: "numeric" });
+    const month = getMonth(dateInfo);
+    const year = getYear(dateInfo);
 
     // Kiểm tra nếu input amount rỗng thì set amountResult = 0
-    const amountResult = amount !== "" ? amount : 0;
+    const amountResult = amount !== "" ? amount : isZero;
 
     // Chuyển đổi một chuỗi số có chứa dấu phẩy sang dạng số thực
-    const parseAmount = amount.trim() !== "" ? parseFloat(amount.replace(/,/g, "")) : 0;
+    const parseAmount = amount.trim() !== "" ? parseFloat(amount.replace(/,/g, "")) : isZero;
+
+    const calculatorMonthlyAmount = (totalAmount, totalMonth) => {
+        return totalAmount / totalMonth;
+    }
+
+    //format number using notation
+    let formatNotation = Intl.NumberFormat('en', { notation: 'compact' });
 
     // Kiểm tra tổng số tháng đã chọn phải khác 0 thì mới tính kết quả
-    const monthlyAmount = totalMonth !== 0 ? parseAmount / totalMonth : 0;
-    const formattedMonthlyAmount = monthlyAmount.toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
+    const monthlyAmount = totalMonth !== isZero ? calculatorMonthlyAmount(parseAmount, totalMonth) : isZero;
+    const formattedMonthlyAmount = monthlyAmount > millionNumber ? formatNotation.format(monthlyAmount) : formatFractionDigits(monthlyAmount, 0, 2)
 
     //kiểm tra monthlyAmount có bằng 0
-    const isMonthlyAmountZero = monthlyAmount !== 0 ? false : true
+    const isMonthlyAmountZero = monthlyAmount !== isZero ? false : true
 
     // Xử lí khi input month được focus thì trigger arrow keyboard
     useEffect(() => {
@@ -196,8 +209,9 @@ function CardGoal() {
 
     const handleInputAmount = (event) => {
         const inputAmount = event.target.value;
-        //loại bỏ tất cả các ký tự không phải là số và dấu chấm(.)
-        const formattedValue = formatCurrency(inputAmount.replace(/[^0-9.]/g, ""));
+        console.log(event.target.value);
+        // Loại bỏ tất cả các ký tự không phải là số và dấu chấm(.), không được nhập . chấm đầu tiên
+        const formattedValue = formatCurrency(inputAmount.replace(/^\.|[^0-9.]/g, ""));
         setAmount(formattedValue);
     };
 
@@ -206,7 +220,7 @@ function CardGoal() {
         const prevMonth = new Date(reachDate.getFullYear(), reachDate.getMonth() - 1);
         if (!isPastMonth(prevMonth)) {
             setReachDate(prevMonth);
-            setTotalMonth(prevMonth.getMonth() - currentDay.getMonth() + 12 * (prevMonth.getFullYear() - currentDay.getFullYear()));
+            setTotalMonth(prevMonth.getMonth() - currentDay.getMonth() + totalMonthOfYear * (prevMonth.getFullYear() - currentDay.getFullYear()));
         }
     };
 
@@ -214,8 +228,10 @@ function CardGoal() {
     const handleNextMonth = () => {
         const nextMonth = new Date(reachDate.getFullYear(), reachDate.getMonth() + 1);
         setReachDate(nextMonth);
-        setTotalMonth(nextMonth.getMonth() - currentDay.getMonth() + 12 * (nextMonth.getFullYear() - currentDay.getFullYear()));
+        setTotalMonth(nextMonth.getMonth() - currentDay.getMonth() + totalMonthOfYear * (nextMonth.getFullYear() - currentDay.getFullYear()));
     };
+
+
 
     return (
         <>
@@ -236,7 +252,7 @@ function CardGoal() {
                                 alt="Icon amount"
                                 src={IconDollar}
                             />
-                            <AmountInput component="input" id="amount" className="amount" type="text" aria-label="amount" placeholder="0" value={amount} onChange={handleInputAmount} />
+                            <AmountInput component="input" id="amount" className="amount" type="text" aria-label="amount" placeholder="0" value={amount} onChange={handleInputAmount} maxLength="25" />
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={5}>
@@ -254,8 +270,8 @@ function CardGoal() {
                                 <img src={IconArrowLeft} width={24} height={24} alt="prev month" />
                             </ButtonArrow>
                             <Stack direction="column" alignItems="center">
-                                <ReachDateInput id="reachDate" className="month" aria-label="month" value={reachDate.toLocaleDateString("en-US", { month: "long" })} readOnly />
-                                <ReachDateInput className="year" aria-label="year" sx={{ fontWeight: 400, color: theme.palette.primary.subtitle }} value={reachDate.toLocaleDateString("en-US", { year: "numeric" })} readOnly />
+                                <ReachDateInput id="reachDate" className="month" aria-label="month" value={getMonth(reachDate)} readOnly />
+                                <ReachDateInput className="year" aria-label="year" sx={{ fontWeight: 400, color: theme.palette.primary.subtitle }} value={getYear(reachDate)} readOnly />
                             </Stack>
                             <ButtonArrow onClick={handleNextMonth} aria-label="next month">
                                 <img src={IconArrowRight} width={24} height={24} alt="next month" />
@@ -264,7 +280,7 @@ function CardGoal() {
                     </Grid>
                 </Grid>
                 <CardResult amountResult={amountResult} totalMonth={totalMonth} monthlyAmount={formattedMonthlyAmount} month={month} year={year} currency={currency} />
-                <ButtonConfirm disabled={isMonthlyAmountZero} onClick={handleOpen} sx={{ background: isMonthlyAmountZero ? theme.palette.primary.disable : theme.palette.primary.main }}>
+                <ButtonConfirm disabled={isMonthlyAmountZero} onClick={debounce(handleOpen, DEBOUNCE_DELAY)} sx={{ background: isMonthlyAmountZero ? theme.palette.primary.disable : theme.palette.primary.main }}>
                     Confirm
                 </ButtonConfirm>
             </StyledCard>

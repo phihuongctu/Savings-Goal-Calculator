@@ -7,8 +7,8 @@ const MonthAmountBox = styled(Box)(({ theme }) => ({
     borderRadius: "0.5rem",
     marginTop: "0.5rem",
     [theme.breakpoints.up("md")]: {
-        marginTop: "0",
-    },
+        marginTop: "0"
+    }
 }));
 
 const TitleBox = styled(Box)(({ theme }) => ({
@@ -17,8 +17,8 @@ const TitleBox = styled(Box)(({ theme }) => ({
     alignItems: "center",
     padding: "1.5rem",
     [theme.breakpoints.up("md")]: {
-        padding: "1.5rem 2rem 1rem",
-    },
+        padding: "1.5rem 2rem 1rem"
+    }
 }));
 
 const InfoDetail = styled(Box)(({ theme }) => ({
@@ -32,18 +32,18 @@ const InfoDetail = styled(Box)(({ theme }) => ({
     backgroundColor: "rgba(244, 248, 250, 1)",
     "& span": {
         fontSize: "0.75rem",
-        fontWeight: "600",
+        fontWeight: "600"
     },
     [theme.breakpoints.up("md")]: {
-        textAlign: "left",
-    },
+        textAlign: "left"
+    }
 }));
 
 function CardResult({ currency, monthlyAmount, totalMonth, amountResult, month, year }) {
     return (
         <MonthAmountBox>
             <TitleBox>
-                <Typography variant="h6" color="primary.text">
+                <Typography component={'p'} variant="h6" color="primary.text">
                     Monthly amount
                 </Typography>
                 <Typography variant="headingMedium" color="primary.lightBlue">

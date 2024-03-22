@@ -6,7 +6,7 @@ import { Stack } from "@mui/material";
 function CardHeader({ name, icon }) {
     return (
         <Stack direction="row" gap={2} alignItems="center">
-            <Box component="img" alt="Icon House" src={icon} />
+            <Box component="img" alt="Icon House" src={icon} width={60} height={60}/>
             <Stack gap={0.5}>
                 <Typography variant="h4" color="primary.text">
                     {name}

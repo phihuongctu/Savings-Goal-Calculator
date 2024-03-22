@@ -47,7 +47,7 @@ $ npm install
 $ npm run dev
 
 # Testing
-$ npm run lint
+$ npm run jest
 
 # Build
 $ npm run build
