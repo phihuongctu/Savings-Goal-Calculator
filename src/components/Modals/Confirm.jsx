@@ -71,7 +71,7 @@ function ModalConfirm({ serviceName, icon, amount, reachDate, monthlyDeposits, m
                                 <CloseIcon />
                             </ButtonClose>
                         </Stack>
-                        <Stack alignItems="center" gap={0}>
+                        <Stack alignItems="left" gap={0}>
                             <Box component="img" alt={serviceName} src={icon} width={100} height={100} />
                             <Typography variant="h5" color="primary.lightBlue" fontWeight={500}>{`${currency}${monthlyDeposits} monthly`}</Typography>
                             <Typography variant="caption" textAlign="center" mt={0.5}>
